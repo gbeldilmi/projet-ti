@@ -46,5 +46,5 @@ if __name__ == '__main__':
   plt.title("Result image A (with B color)")
   plt.subplot(2, 2, 4)
   plt.imshow(res_b)
-  plt.title("Result image B (with B color)")
+  plt.title("Result image B (with A color)")
   plt.show()
