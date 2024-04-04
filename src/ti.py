@@ -88,7 +88,9 @@ class arr3d:
       return p.r * vector[0] + p.g * vector[1] + p.b * vector[2]
     # If vector is undefined, generate a random vector
     if vector is None:
-      vector = [rd.randint(-self.max, self.max) for _ in range(3)]
+      r = rd.random() * 2 * np.pi
+      s = rd.random() * np.pi
+      vector = [np.sin(s) * np.cos(r), np.sin(s) * np.sin(r), np.cos(s)]
     # Project each pixel in the rgb space to the vector and sort the projections
     proj_a = sorted([(ratio(p), p) for p in self.arr], key=lambda x: x[0])
     proj_b = sorted([(ratio(p), p) for p in b.arr], key=lambda x: x[0])
@@ -134,12 +136,12 @@ class arr3d:
     res = np.zeros((self.h, self.w, 3))
     # Fill the image with the values of the array
     for i in self.arr:
-      # Clamp the values to the range [0, max]
-      a = max(0, min(i.r, self.max))
-      b = max(0, min(i.g, self.max))
-      c = max(0, min(i.b, self.max))
-      # Set the pixel to the rgb values
-      res[i.x, i.y] = a,b,c
+      res[i.x, i.y, 0] = int(i.r)
+      res[i.x, i.y, 1] = int(i.g)
+      res[i.x, i.y, 2] = int(i.b)
+    # Normalize the values of the array to the range [0, max]
+    res = (res - np.min(res)) / (np.max(res) - np.min(res)) * self.max
+    res = np.uint8(res)
     return res
 
 
