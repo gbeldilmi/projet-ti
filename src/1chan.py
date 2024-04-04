@@ -1,11 +1,14 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import sys
 import ti
 
 if __name__ == '__main__':
+  a = sys.argv[1]
+  b = sys.argv[2]
   # Load images
-  im_a = plt.imread('res/a.JPG')
-  im_b = plt.imread('res/b.JPG')
+  im_a = plt.imread(a)
+  im_b = plt.imread(b)
   # Convert rgb to grayscale
   im_a = np.dot(im_a[...,:3], [0.299, 0.587, 0.114])
   im_b = np.dot(im_b[...,:3], [0.299, 0.587, 0.114])

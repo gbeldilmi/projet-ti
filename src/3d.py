@@ -1,14 +1,17 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import sys
 import ti
 
 if __name__ == '__main__':
+  a = sys.argv[1]
+  b = sys.argv[2]
   NB_ITER = 1000
-  EPSILON = 0.1
+  EPSILON = 0.01
   VEC_LIST = [[1, 0, 0], [0, 1, 0], [0, 0, 1], [1, 1, 0], [1, 0, 1], [0, 1, 1], [1, 1, 1]]
   # Load images
-  im_a = plt.imread('res/ar.jpg')
-  im_b = plt.imread('res/br.jpg')
+  im_a = plt.imread(a)
+  im_b = plt.imread(b)
   im_a_norm = (im_a-np.min(im_a))/(np.max(im_a)-np.min(im_a)) * 255
   im_b_norm = (im_b-np.min(im_b))/(np.max(im_b)-np.min(im_b)) * 255
   # Apply the 3d transformation to the images

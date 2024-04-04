@@ -15,7 +15,7 @@ Sujet : [Transfert de couleurs dans des images RGB par transport optimal « par 
 Pour exécuter notre projet, il suffit de lancer les scripts python suivants à partir de la racine du projet :
 
 ```sh
-python src/1chan.py
-python src/3chan.py
-python src/3d.py
+python src/1chan.py <imageA> <imageB>
+python src/3chan.py <imageA> <imageB>
+python src/3d.py <imageA> <imageB>
 ```

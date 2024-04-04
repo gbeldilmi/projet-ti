@@ -1,11 +1,14 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import sys
 import ti
 
 if __name__ == '__main__':
+  a = sys.argv[1]
+  b = sys.argv[2]
   # Load images
-  im_a = plt.imread('res/a.JPG')
-  im_b = plt.imread('res/b.JPG')
+  im_a = plt.imread(a)
+  im_b = plt.imread(b)
   # Extract each channel from the images
   im_a_r = im_a[...,0]
   im_a_g = im_a[...,1]
