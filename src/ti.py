@@ -74,8 +74,6 @@ class arr3d:
       self.max = 1
     else:
       self.max = 255
-    c = self.max / 2
-    self.center = np.array([c, c, c])
     # Create an array of p3d objects with the pixels of the image
     self.arr = []
     for i in range(self.h):
@@ -85,30 +83,18 @@ class arr3d:
   def transfer(self, b, vector=None):
     # Use sliced sliced optimal transport to move the values of the array to the values
     # of the array b in the rgb space
-    def get_lambda(p, center, vector): # Get the ratio between distance of the center and the projection and the vector
-      def project(p, center, vector):
-        # Project the pixel p to the vector
-        # The projection of a point x on a vector v is x - <x, v> * v / ||v||^2
-        v = vector / np.linalg.norm(vector)
-        return p - np.dot(p - center, v) * v
-      ####################################################################################
-      ####################################################################################
-      ####################################################################################
-      ####################################################################################
-      ####################################################################################
-      ####################################################################################
-      ####################################################################################
+    def get_lambda(p, v): # Get the ratio between distance of the center and the projection and the vector
+      return v[0] * p.r + v[1] * p.g + v[2] * p.b
     # If vector is undefined, generate a random vector
     if vector is None:
-      vector = np.random.rand(3)
-    # Project each pixel in the rgb space to the vector
-    proj_a = [[get_lambda(i, self.center, vector), i] for i in self.arr]
-    proj_b = [[get_lambda(i, b.center, vector), i] for i in b.arr]
-    proj_a = sorted(proj_a, key=lambda x: x[0])
-    proj_b = sorted(proj_b, key=lambda x: x[0])
+      vector = [random.random() for _ in range(3)]
+    # Project each pixel in the rgb space to the vector and sort the projections
+    proj_a = sorted([(get_lambda(p, vector), p) for p in self.arr], key=lambda x: x[0])
+    proj_b = sorted([(get_lambda(p, vector), p) for p in b.arr], key=lambda x: x[0])
+    # Get the difference of the projections
     diff_proj = [proj_b[i][0] - proj_a[i][0] for i in range(len(proj_a))]
     # Get the average of the projections
-    avg_diff_proj = np.mean(diff_proj)
+    avg_diff_proj = sum(diff_proj) / len(diff_proj)
     # Move each pixel rgb value by the value of the difference of the projections
     for i in range(len(self.arr)):
       self.arr[i].r += avg_diff_proj * vector[0]
