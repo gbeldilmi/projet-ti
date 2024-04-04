@@ -1,4 +1,5 @@
 import numpy as np
+import random as rd
 
 
 
@@ -83,23 +84,23 @@ class arr3d:
   def transfer(self, b, vector=None):
     # Use sliced sliced optimal transport to move the values of the array to the values
     # of the array b in the rgb space
-    def get_lambda(p, v): # Get the ratio between distance of the center and the projection and the vector
-      return v[0] * p.r + v[1] * p.g + v[2] * p.b
+    def ratio(p): # Get the ratio between distance of the center and the projection and the vector
+      return p.r * vector[0] + p.g * vector[1] + p.b * vector[2]
     # If vector is undefined, generate a random vector
     if vector is None:
-      vector = [random.random() for _ in range(3)]
+      vector = [rd.randint(-self.max, self.max) for _ in range(3)]
     # Project each pixel in the rgb space to the vector and sort the projections
-    proj_a = sorted([(get_lambda(p, vector), p) for p in self.arr], key=lambda x: x[0])
-    proj_b = sorted([(get_lambda(p, vector), p) for p in b.arr], key=lambda x: x[0])
+    proj_a = sorted([(ratio(p), p) for p in self.arr], key=lambda x: x[0])
+    proj_b = sorted([(ratio(p), p) for p in b.arr], key=lambda x: x[0])
     # Get the difference of the projections
     diff_proj = [proj_b[i][0] - proj_a[i][0] for i in range(len(proj_a))]
     # Get the average of the projections
     avg_diff_proj = sum(diff_proj) / len(diff_proj)
     # Move each pixel rgb value by the value of the difference of the projections
-    for i in range(len(self.arr)):
-      self.arr[i].r += avg_diff_proj * vector[0]
-      self.arr[i].g += avg_diff_proj * vector[1]
-      self.arr[i].b += avg_diff_proj * vector[2]
+    for i in range(len(proj_a)):
+      proj_a[i][1].r += diff_proj[i] * vector[0]
+      proj_a[i][1].g += diff_proj[i] * vector[1]
+      proj_a[i][1].b += diff_proj[i] * vector[2]
     # Return the average of the projections
     return avg_diff_proj
 
@@ -134,57 +135,41 @@ class arr3d:
     # Fill the image with the values of the array
     for i in self.arr:
       # Clamp the values to the range [0, max]
-      a = i.r
-      b = i.g
-      c = i.b
-      if a < 0:
-        a = 0
-      if a > self.max:
-        a = self.max
-      if b < 0:
-        b = 0
-      if b > self.max:
-        b = self.max
-      if c < 0:
-        c = 0
-      if c > self.max:
-        c = self.max
+      a = max(0, min(i.r, self.max))
+      b = max(0, min(i.g, self.max))
+      c = max(0, min(i.b, self.max))
       # Set the pixel to the rgb values
       res[i.x, i.y] = a,b,c
     return res
 
 
 
-def _3d_dist(a, b, epsilon):
+def _3d(a, b, fn, arg):
   # Convert a and b to 3d arrays
   arr_a = arr3d(a)
   arr_b = arr3d(b)
-  # Exchange the values of the arrays
-  arr_a.transfer_by_distance(arr_b, epsilon)
+  # Transfer
+  if fn == 'dist':
+    arr_a.transfer_by_distance(arr_b, arg)
+  elif fn == 'iter':
+    arr_a.transfer_by_iteration(arr_b, arg)
+  elif fn == 'list':
+    arr_a.transfer_by_vector_list(arr_b, arg)
   # Convert the arrays to images
   ra = arr_a.to_img()
-  return ra
+  return ra 
+
+
+
+def _3d_dist(a, b, epsilon):
+  return _3d(a, b, 'dist', epsilon)
 
 
 
 def _3d_iter(a, b, nb_iter):
-  # Convert a and b to 3d arrays
-  arr_a = arr3d(a)
-  arr_b = arr3d(b)
-  # Exchange the values of the arrays
-  arr_a.transfer_by_iteration(arr_b, nb_iter)
-  # Convert the arrays to images
-  ra = arr_a.to_img()
-  return ra
+  return _3d(a, b, 'iter', nb_iter)
 
 
 
 def _3d_list(a, b, vectors):
-  # Convert a and b to 3d arrays
-  arr_a = arr3d(a)
-  arr_b = arr3d(b)
-  # Exchange the values of the arrays
-  arr_a.transfer_by_vector_list(arr_b, vectors)
-  # Convert the arrays to images
-  ra = arr_a.to_img()
-  return ra
+  return _3d(a, b, 'list', vectors)
