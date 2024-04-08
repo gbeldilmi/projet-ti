@@ -3,12 +3,29 @@ import matplotlib.pyplot as plt
 import sys
 import ti
 
+def d(n): # Define a list of vectors by the normal vectors of the faces of a n faces dice
+  assert n in [6], "Only 6 faces dice is supported"
+  if n == 6: # 6 faces dice
+    return [
+      (1, 0, 0), 
+      (0, 1, 0),
+      (0, 0, 1),
+      (-1, 0, 0),
+      (0, -1, 0),
+      (0, 0, -1)
+      ]
+
 if __name__ == '__main__':
+  ##################################################################################################
+  # Parameters (change these values to adjust the behavior of the program)                         #
+  ##################################################################################################
+  NB_ITER = 1000    # Number of iterations
+  EPSILON = 0.01    # Acceptable distance between the two images
+  VEC_LIST = d(6)   # List of vectors as normal vectors of the faces of a n faces dice 
+  ##################################################################################################
+  # Get the images paths
   a = sys.argv[1]
   b = sys.argv[2]
-  NB_ITER = 1000
-  EPSILON = 0.01
-  VEC_LIST = [[1, 0, 0], [0, 1, 0], [0, 0, 1], [1, 1, 0], [1, 0, 1], [0, 1, 1], [1, 1, 1]]
   # Load images
   im_a = plt.imread(a)
   im_b = plt.imread(b)
