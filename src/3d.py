@@ -4,23 +4,31 @@ import sys
 import ti
 
 def d(n): # Define a list of vectors by the normal vectors of the faces of a n faces dice
-  assert n in [6], "Only 6 faces dice is supported"
-  if n == 6: # 6 faces dice
-    return [
-      (1, 0, 0), 
-      (0, 1, 0),
-      (0, 0, 1),
-      (-1, 0, 0),
-      (0, -1, 0),
-      (0, 0, -1)
-      ]
+  assert n in [4, 6, 8, 12, 20], "n must be in [4, 6, 8, 12, 20]"
+  v = []
+  if n == 4: # 4 faces dice
+    v.append((0, 0, -1))
+  elif n == 6: # 6 faces dice
+    v.append((1, 0, 0))
+    v.append((0, 1, 0))
+    v.append((0, 0, 1))
+    v.append((-1, 0, 0))
+    v.append((0, -1, 0))
+    v.append((0, 0, -1))
+  elif n == 8: # 8 faces dice
+    return []
+  elif n == 12: # 12 faces dice
+    return []
+  elif n == 20: # 20 faces dice
+    return []
+  return v
 
 if __name__ == '__main__':
   ##################################################################################################
   # Parameters (change these values to adjust the behavior of the program)                         #
   ##################################################################################################
-  NB_ITER = 1000    # Number of iterations
-  EPSILON = 0.01    # Acceptable distance between the two images
+  NB_ITER = 10      # Number of iterations
+  EPSILON = 25      # Acceptable distance between the two images
   VEC_LIST = d(6)   # List of vectors as normal vectors of the faces of a n faces dice 
   ##################################################################################################
   # Get the images paths
@@ -32,12 +40,19 @@ if __name__ == '__main__':
   im_a_norm = (im_a-np.min(im_a))/(np.max(im_a)-np.min(im_a)) * 255
   im_b_norm = (im_b-np.min(im_b))/(np.max(im_b)-np.min(im_b)) * 255
   # Apply the 3d transformation to the images
+  print("0/6")
   res_a = ti._3d_dist(im_a_norm, im_b_norm, EPSILON)
+  print("1/6")
   res_b = ti._3d_iter(im_a_norm, im_b_norm, NB_ITER)
+  print("2/6")
   res_c = ti._3d_list(im_a_norm, im_b_norm, VEC_LIST)
+  print("3/6")
   res_d = ti._3d_dist(im_b_norm, im_a_norm, EPSILON)
+  print("4/6")
   res_e = ti._3d_iter(im_b_norm, im_a_norm, NB_ITER)
+  print("5/6")
   res_f = ti._3d_list(im_b_norm, im_a_norm, VEC_LIST)
+  print("6/6")
   # Display the results
   plt.figure("Test 3d on RGB images")
   # Original images
