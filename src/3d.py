@@ -18,9 +18,12 @@ def d(n): # Define a list of vectors by the vertex of a n faces dice
         for k in [-1, 1]:
           v.append((i, j, k))
   elif n == 8: # 8 faces dice
-    return [] ######################################################################################
+    for i in [-1, 1]:
+      v.append((i, 0, 0))
+      v.append((0, i, 0))
+      v.append((0, 0, i))
   elif n == 12: # 12 faces dice
-    phi = np.arccos((1+np.sqrt(5))/2)
+    phi = (1+np.sqrt(5))/2
     for i in [-1, 1]:
       for j in [-1, 1]:
         v.append((0, i*phi, j/phi))
@@ -29,7 +32,12 @@ def d(n): # Define a list of vectors by the vertex of a n faces dice
         for k in [-1, 1]:
           v.append((i, j, k))
   elif n == 20: # 20 faces dice
-    return [] ######################################################################################
+    phi = (1+np.sqrt(5))/2
+    for i in [-1, 1]:
+      for j in [-1, 1]:
+        v.append((0, i, j*phi))
+        v.append((i, j*phi, 0))
+        v.append((i*phi, 0, j))
   return v
 
 if __name__ == '__main__':
