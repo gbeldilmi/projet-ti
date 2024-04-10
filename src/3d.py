@@ -3,24 +3,33 @@ import matplotlib.pyplot as plt
 import sys
 import ti
 
-def d(n): # Define a list of vectors by the normal vectors of the faces of a n faces dice
+def d(n): # Define a list of vectors by the vertex of a n faces dice
   assert n in [4, 6, 8, 12, 20], "n must be in [4, 6, 8, 12, 20]"
   v = []
   if n == 4: # 4 faces dice
-    v.append((0, 0, -1))
-  elif n == 6: # 6 faces dice
-    v.append((1, 0, 0))
-    v.append((0, 1, 0))
     v.append((0, 0, 1))
-    v.append((-1, 0, 0))
-    v.append((0, -1, 0))
-    v.append((0, 0, -1))
+    theta = np.pi/2 - 2*np.pi/3
+    for i in range(3):
+      phi = i*2*np.pi/3
+      v.append((np.cos(phi)*np.cos(theta), np.sin(phi)*np.cos(theta), np.sin(theta)))
+  elif n == 6: # 6 faces dice
+    for i in [-1, 1]:
+      for j in [-1, 1]:
+        for k in [-1, 1]:
+          v.append((i, j, k))
   elif n == 8: # 8 faces dice
-    return []
+    return [] ######################################################################################
   elif n == 12: # 12 faces dice
-    return []
+    phi = np.arccos((1+np.sqrt(5))/2)
+    for i in [-1, 1]:
+      for j in [-1, 1]:
+        v.append((0, i*phi, j/phi))
+        v.append((i/phi, 0, j*phi))
+        v.append((i*phi, j/phi, 0))
+        for k in [-1, 1]:
+          v.append((i, j, k))
   elif n == 20: # 20 faces dice
-    return []
+    return [] ######################################################################################
   return v
 
 if __name__ == '__main__':
