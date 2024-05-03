@@ -44,9 +44,9 @@ if __name__ == '__main__':
   ##################################################################################################
   # Parameters (change these values to adjust the behavior of the program)                         #
   ##################################################################################################
-  NB_ITER = 10      # Number of iterations
-  EPSILON = 25      # Acceptable distance between the two images
-  VEC_LIST = d(6)   # List of vectors as normal vectors of the faces of a n faces dice 
+  NB_ITER = 1000      # Number of iterations
+  EPSILON = 50      # Acceptable distance between the two images
+  VEC_LIST = d(8)   # List of vectors as normal vectors of the faces of a n faces dice
   ##################################################################################################
   # Get the images paths
   a = sys.argv[1]
