@@ -44,13 +44,14 @@ if __name__ == '__main__':
   ##################################################################################################
   # Parameters (change these values to adjust the behavior of the program)                         #
   ##################################################################################################
-  NB_ITER = 1000      # Number of iterations
-  EPSILON = 50      # Acceptable distance between the two images
+  NB_ITER = 20      # Number of iterations
+  EPSILON = 10      # Acceptable distance between the two images
   VEC_LIST = d(8)   # List of vectors as normal vectors of the faces of a n faces dice
   ##################################################################################################
   # Get the images paths
   a = sys.argv[1]
   b = sys.argv[2]
+  out = sys.argv[3]
   # Load images
   im_a = plt.imread(a)
   im_b = plt.imread(b)
@@ -71,6 +72,7 @@ if __name__ == '__main__':
   res_f = ti._3d_list(im_b_norm, im_a_norm, VEC_LIST)
   print("6/6")
   # Display the results
+  plt.rcParams["font.size"]=5
   plt.figure("Test 3d on RGB images")
   # Original images
   plt.subplot(2, 4, 1)
@@ -98,4 +100,4 @@ if __name__ == '__main__':
   plt.subplot(2, 4, 8)
   plt.imshow(res_f)
   plt.title("Result image B (with A color) (list)")
-  plt.show()
+  plt.savefig(out, dpi=500)

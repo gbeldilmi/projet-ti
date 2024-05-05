@@ -6,6 +6,7 @@ import ti
 if __name__ == '__main__':
   a = sys.argv[1]
   b = sys.argv[2]
+  out = sys.argv[3]
   # Load images
   im_a = plt.imread(a)
   im_b = plt.imread(b)
@@ -35,6 +36,7 @@ if __name__ == '__main__':
   res_a /= ma
   res_b /= mb
   # Display the results
+  plt.rcParams["font.size"]=5
   plt.figure("Test on each channel of RGB images")
   # Original images
   plt.subplot(2, 2, 1)
@@ -50,4 +52,4 @@ if __name__ == '__main__':
   plt.subplot(2, 2, 4)
   plt.imshow(res_b)
   plt.title("Result image B (with A color)")
-  plt.show()
+  plt.savefig(out, dpi=500)
