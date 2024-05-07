@@ -1,6 +1,7 @@
 # Projet Traitement d'Images
 
-Sujet : [Transfert de couleurs dans des images RGB par transport optimal « par tranches » (sliced)](doc/sujet.pdf)
++ Sujet : [Transfert de couleurs dans des images RGB par transport optimal « par tranches » (sliced)](doc/sujet.pdf)
++ [Rapport](doc/rapport.pdf)
 
 ## Groupe
 
